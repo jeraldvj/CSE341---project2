@@ -5,7 +5,7 @@ const doc = {
     title: 'Doctor Portfolio Builder',
     description: 'This is an api server for a doctor portfolio builder website.\n'
   },
-  host: 'https://cse341-project2-0lcr.onrender.com',
+  host: 'cse341-project2-0lcr.onrender.com',
   schemes: ['https']
 };
 
