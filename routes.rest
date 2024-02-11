@@ -16,34 +16,16 @@ content-type: application/json
 
 // PRODUCTION Deploy
 ### Get all contacts
-GET https://cse341-web-server-ii.onrender.com/contacts
+GET https://cse341-project2-0lcr.onrender.com/user
 
 ### Get contact by id
-GET https://cse341-web-server-ii.onrender.com/contacts/65ac5f2be62521267d52698e
+GET https://cse341-project2-0lcr.onrender.com/user/tomyvasquez
 
 ### Create contact
-POST https://cse341-web-server-ii.onrender.com/contacts HTTP/1.1
+POST https://cse341-project2-0lcr.onrender.com/user HTTP/1.1
 content-type: application/json
 
 {
-    "firstName":"Rosalia",
-    "lastName":"Diaz",
-    "email":"rosaliadiaz@gmail.com",
-    "favoriteColor":"Yellow",
-    "birthday":"04/15/10"
+    "username": "johnfelton",
+    "password": "feltonPassword"
 }
-
-### Update contact
-PUT https://cse341-web-server-ii.onrender.com/contacts/65ac5f2be62521267d526990 HTTP/1.1
-content-type: application/json
-
-{
-    "firstName":"Rosalia",
-    "lastName":"Diaz",
-    "email":"rosaliadiaz@gmail.com",
-    "favoriteColor":"Yellow",
-    "birthday":"04/15/10"
-}
-
-### DELETE contact
-DELETE https://cse341-web-server-ii.onrender.com/contacts/65b59e79c14d2c01e91422bf HTTP/1.1
