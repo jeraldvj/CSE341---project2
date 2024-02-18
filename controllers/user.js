@@ -1,16 +1,15 @@
 const db = require('../models');
 const User = db.user;
-const passwordUtil = require('../extra/passComplexityCheck');
+const passwordChecker = require('../extra/passComplexityCheck');
 
-module.exports.create = (req, res) => {
+exports.createUser = (req, res) => {
   try {
-    // Validate Request
     if (!req.body.username || !req.body.password) {
       res.status(400).send({ message: 'Content can not be empty!' });
       return;
     }
     const password = req.body.password;
-    const passwordCheck = passwordUtil.passwordPass(password);
+    const passwordCheck = passwordChecker.passwordPass(password);
     if (passwordCheck.error) {
       res.status(400).send({ message: passwordCheck.error });
       return;
@@ -32,7 +31,7 @@ module.exports.create = (req, res) => {
   }
 };
 
-module.exports.getAll = (req, res) => {
+exports.getAll = (req, res) => {
   try {
     User.find({})
       .then((data) => {
@@ -48,7 +47,7 @@ module.exports.getAll = (req, res) => {
   }
 };
 
-module.exports.getUser = (req, res) => {
+exports.getUser = (req, res) => {
   try {
     const username = req.params.username;
     User.find({ username: username })
@@ -65,51 +64,50 @@ module.exports.getUser = (req, res) => {
   }
 };
 
-module.exports.updateUser = async (req, res) => {
-  try {
-    const username = req.params.username;
-    if (!username) {
-      res.status(400).send({ message: 'Invalid Username Supplied' });
-      return;
-    }
-    const password = req.body.password;
-    const passwordCheck = passwordUtil.passwordPass(password);
-    if (passwordCheck.error) {
-      res.status(400).send({ message: passwordCheck.error });
-      return;
-    }
-    User.findOne({ username: username }, function (err, user) {
-      user.username = req.params.username;
-      user.password = req.body.password;
-      user.displayName = req.body.displayName;
-      user.specialty = req.body.specialty;
-      user.profile = req.body.profile;
-      user.save(function (err) {
-        if (err) {
-          res.status(500).json(err || 'Some error occurred while updating the user.');
-        } else {
-          res.status(204).send();
-        }
-      });
-    });
-  } catch (err) {
-    res.status(500).json(err);
+exports.updateUser = async (req, res) => {
+  const username = req.params.username;
+  if (!username) {
+    res.status(400).send({ message: 'Invalid Username Supplied' });
+    return;
   }
+  const password = req.body.password;
+  const passwordCheck = passwordChecker.passwordPass(password);
+  if (passwordCheck.error) {
+    res.status(400).send({ message: passwordCheck.error });
+    return;
+  }
+  const update = {
+    username: req.params.username,
+    password: req.body.password,
+    displayName: req.body.displayName,
+    specialty: req.body.specialty,
+    profile: req.body.profile
+  }
+  const doc = await User.findOneAndUpdate({ username: username },update , {new: true, upsert: true, includeResultMetadata: true});
+  if (doc.value instanceof User){
+    res.status(204).send(doc);
+  } else {
+    res.status(500).json(err || 'Some error occurred while updating the user.');
+  }
+  
 };
 
-module.exports.deleteUser = async (req, res) => {
+
+exports.deleteUser = async (req, res) => {
   try {
     const username = req.params.username;
     if (!username) {
       res.status(400).send({ message: 'Invalid Username Supplied' });
       return;
     }
-    User.deleteOne({ username: username }, function (err, result) {
-      if (err) {
-        res.status(500).json(err || 'Some error occurred while deleting the user.');
-      } else {
-        res.status(204).send(result);
-      }
+    User.deleteOne({ username: username })
+    .then((result) => {
+        res.status(200).send(result);
+    })
+    .catch((err) => {
+      res.status(500).send({
+        message: err.message || 'Some error occurred while deleting the user.'
+      });
     });
   } catch (err) {
     res.status(500).json(err || 'Some error occurred while deleting the user.');

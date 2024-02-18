@@ -5,7 +5,7 @@ const port = process.env.PORT || 8080;
 const app = express();
 
 app
-  .use(bodyParser.json())
+.use(bodyParser.json())
   .use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*');
     next();
@@ -20,10 +20,10 @@ db.mongoose
   })
   .then(() => {
     app.listen(port, () => {
-      console.log(`Database Connected and server running on ${port}.`);
+      console.log(`DB Connected and server running on ${port}.`);
     });
   })
   .catch((err) => {
-    console.log('Cannot connect to the database', err);
+    console.log('Cannot connect to the database!', err);
     process.exit();
   });

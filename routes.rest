@@ -29,3 +29,6 @@ content-type: application/json
     "username": "johnfelton",
     "password": "feltonPassword"
 }
+
+### DELETE contact
+DELETE http://localhost:8080/user/many HTTP/1.1
