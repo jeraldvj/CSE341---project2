@@ -2,7 +2,7 @@ const db = require('../models');
 const User = db.user;
 const passwordUtil = require('../extra/passComplexityCheck');
 
-exports.create = (req, res) => {
+module.exports.create = (req, res) => {
   try {
     // Validate Request
     if (!req.body.username || !req.body.password) {
@@ -32,7 +32,7 @@ exports.create = (req, res) => {
   }
 };
 
-exports.getAll = (req, res) => {
+module.exports.getAll = (req, res) => {
   try {
     User.find({})
       .then((data) => {
@@ -48,7 +48,7 @@ exports.getAll = (req, res) => {
   }
 };
 
-exports.getUser = (req, res) => {
+module.exports.getUser = (req, res) => {
   try {
     const username = req.params.username;
     User.find({ username: username })
@@ -65,7 +65,7 @@ exports.getUser = (req, res) => {
   }
 };
 
-exports.updateUser = async (req, res) => {
+module.exports.updateUser = async (req, res) => {
   try {
     const username = req.params.username;
     if (!username) {
@@ -97,7 +97,7 @@ exports.updateUser = async (req, res) => {
   }
 };
 
-exports.deleteUser = async (req, res) => {
+module.exports.deleteUser = async (req, res) => {
   try {
     const username = req.params.username;
     if (!username) {
