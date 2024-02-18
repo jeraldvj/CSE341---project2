@@ -105,7 +105,7 @@ exports.deleteUser = async (req, res) => {
       if (result.deletedCount> 0){
         res.status(200).send(result);
       } else{
-        res.status(400).send({ message: 'User name not found' });
+        res.status(400).send({ message: 'Username not found' });
       }
     })
     .catch((err) => {
