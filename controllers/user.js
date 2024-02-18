@@ -100,9 +100,13 @@ exports.deleteUser = async (req, res) => {
       res.status(400).send({ message: 'Invalid Username Supplied' });
       return;
     }
-    User.deleteOne({ username: username })
+    const doc = await User.deleteOne({ username: username })
     .then((result) => {
+      if (result.deletedCount> 0){
         res.status(200).send(result);
+      } else{
+        res.status(400).send({ message: 'User name not found' });
+      }
     })
     .catch((err) => {
       res.status(500).send({
