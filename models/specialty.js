@@ -1,8 +1,8 @@
 module.exports = (mongoose) => {
-    const Theme = mongoose.model(
-      'themes',
+    const Specialty = mongoose.model(
+      'specialties',
       mongoose.Schema({
-        themeName: {
+        specialtyName: {
           type: String
         },
         fontSize: {
@@ -20,5 +20,5 @@ module.exports = (mongoose) => {
       })
     );
   
-    return Theme;
+    return Specialty;
   };

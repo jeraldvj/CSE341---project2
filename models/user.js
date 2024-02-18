@@ -15,7 +15,7 @@ module.exports = (mongoose) => {
       phoneNumber: {
         type: String
       },
-      theme_name: {
+      specialty: {
         type: String
       },
       profile: {
