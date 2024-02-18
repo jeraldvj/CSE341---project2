@@ -65,31 +65,34 @@ exports.getUser = (req, res) => {
 };
 
 exports.updateUser = async (req, res) => {
-  const username = req.params.username;
-  if (!username) {
-    res.status(400).send({ message: 'Invalid Username Supplied' });
-    return;
-  }
-  const password = req.body.password;
-  const passwordCheck = passwordChecker.passwordPass(password);
-  if (passwordCheck.error) {
-    res.status(400).send({ message: passwordCheck.error });
-    return;
-  }
-  const update = {
-    username: req.params.username,
-    password: req.body.password,
-    displayName: req.body.displayName,
-    specialty: req.body.specialty,
-    profile: req.body.profile
-  }
-  const doc = await User.findOneAndUpdate({ username: username },update , {new: true, upsert: true, includeResultMetadata: true});
-  if (doc.value instanceof User){
-    res.status(204).send(doc);
-  } else {
+  try{
+    const username = req.params.username;
+    if (!username) {
+      res.status(400).send({ message: 'Invalid Username Supplied' });
+      return;
+    }
+    const password = req.body.password;
+    const passwordCheck = passwordChecker.passwordPass(password);
+    if (passwordCheck.error) {
+      res.status(400).send({ message: passwordCheck.error });
+      return;
+    }
+    const update = {
+      username: req.params.username,
+      password: req.body.password,
+      displayName: req.body.displayName,
+      specialty: req.body.specialty,
+      profile: req.body.profile
+    }
+    const doc = await User.findOneAndUpdate({ username: username },update , {new: true, upsert: true, includeResultMetadata: true});
+    if (doc.value instanceof User){
+      res.status(204).send(doc);
+    } else {
+      res.status(404).json(err || 'Username not found.');
+    }
+  } catch (err) {
     res.status(500).json(err || 'Some error occurred while updating the user.');
   }
-  
 };
 
 
@@ -105,7 +108,7 @@ exports.deleteUser = async (req, res) => {
       if (result.deletedCount> 0){
         res.status(200).send(result);
       } else{
-        res.status(400).send({ message: 'Username not found' });
+        res.status(404).send({ message: 'Username not found.' });
       }
     })
     .catch((err) => {

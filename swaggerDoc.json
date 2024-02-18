@@ -77,6 +77,9 @@
           },
           "404": {
             "description": "User not found"
+          },
+          "500": {
+            "description": "Error occurred"
           }
         }
       },
@@ -103,6 +106,9 @@
           },
           "404": {
             "description": "User not found"
+          },
+          "500": {
+            "description": "Error occurred"
           }
         }
       }
