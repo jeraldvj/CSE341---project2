@@ -150,6 +150,146 @@
           }
         }
       }
+    },
+    "/specialty/{specialtyName}": {
+      "get": {
+        "tags": ["specialty"],
+        "summary": "Get a Specialty",
+        "description": "",
+        "operationId": "getSpecialty",
+        "parameters": [
+          {
+            "name": "specialtyName",
+            "in": "path",
+            "description": "specialty name that need to be find",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "OK"
+          },
+          "404": {
+            "description": "Specialty not found"
+          },
+          "500": {
+            "description": "Internal Server Error"
+          }
+        }
+      },
+      "put": {
+        "tags": ["specialty"],
+        "summary": "Updated specialty",
+        "description": "",
+        "operationId": "updateSpecialty",
+        "parameters": [
+          {
+            "name": "specialtyName",
+            "in": "path",
+            "description": "specialty name that need to be updated",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Updated user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Successfully modified specialty"
+          },
+          "400": {
+            "description": "Invalid specialtyName supplied"
+          },
+          "404": {
+            "description": "Specialty not found"
+          },
+          "500": {
+            "description": "Error occurred"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["specialty"],
+        "summary": "Delete Specialty",
+        "description": "",
+        "operationId": "deleteSpecialty",
+        "parameters": [
+          {
+            "name": "specialtyName",
+            "in": "path",
+            "description": "The specialty name that needs to be deleted",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Successfully deleted specialty"
+          },
+          "400": {
+            "description": "Invalid specialtyName supplied"
+          },
+          "404": {
+            "description": "Specialty not found"
+          },
+          "500": {
+            "description": "Error occurred"
+          }
+        }
+      }
+    },
+    "/specialty": {
+      "get": {
+        "tags": ["specialty"],
+        "summary": "Get all specialty",
+        "operationId": "getAllSpecialties",
+        "responses": {
+          "200": {
+            "description": "successful operation",
+            "schema": {
+              "type": "Array",
+              "$ref": "#/definitions/Specialty"
+            }
+          },
+          "500": {
+            "description": "Error occurred"
+          }
+        }
+      },
+      "post": {
+        "tags": ["specialty"],
+        "summary": "Create specialty",
+        "description": "This is for when a user creates an specialty",
+        "operationId": "createSpecialty",
+        "produces": ["application/json"],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "description": "Created user object",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          }
+        ],
+        "responses": {
+          "default": {
+            "description": "A User object",
+            "schema": {
+              "$ref": "#/definitions/Specialty"
+            }
+          }
+        }
+      }
     }
   },
   "securityDefinitions": {
@@ -191,13 +331,13 @@
     },
     "Specialty": {
       "type": "object",
-      "required": ["colors", "fontFamily", "fontSize", "name"],
+      "required": ["colors", "fontFamily", "fontSize", "specialtyName"],
       "properties": {
         "id": {
           "type": "integer",
           "format": "int64"
         },
-        "name": {
+        "specialtyName": {
           "type": "string",
           "example": "Cardiology"
         },
@@ -215,7 +355,7 @@
         },
         "colors": {
           "type": "array",
-          "example": ["", "#111", "#fff", "#F5F3EE", "#757575", "#7e7e7e", ", ", ", ", ""],
+          "example": ["#111", "#fff", "#F5F3EE", "#757575", "#7e7e7e"],
           "items": {
             "type": "string"
           }
