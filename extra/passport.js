@@ -23,10 +23,8 @@ passport.use(
 
 passport.serializeUser((user, done) => {
     done(null, user);
-    // Code to serialize user data
 });
 
 passport.deserializeUser((user, done) => {
     done(null, user);
-    // Code to deserialize user data
 });

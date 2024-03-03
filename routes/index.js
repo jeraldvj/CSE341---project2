@@ -13,10 +13,6 @@ router.use(session({ secret: 'cats' }));
 router.use(passport.initialize());
 router.use(passport.session());
 
-router.use('/swagger', isLoggedIn, require('./swagger'));
-router.use('/user', isLoggedIn, require('./user'));
-router.use('/specialty', isLoggedIn, require('./specialty'));
-
 router.get('/', (req, res) => {
     res.send('<a href="/auth/google">Autenticate with Google</a>');
 });
@@ -39,6 +35,10 @@ router.get('/auth/failure', (req, res) =>{
 router.get('/welcome', isLoggedIn, (req, res) =>{
     res.send(`Hello! ${req.user.displayName} <br>You logged in correctly`);
 });
+
+router.use('/', isLoggedIn, require('./swagger'));
+router.use('/user', isLoggedIn, require('./user'));
+router.use('/specialty', isLoggedIn, require('./specialty'));
 
 router.get('/logout', (req, res) => {;
     req.session.destroy(err => {
