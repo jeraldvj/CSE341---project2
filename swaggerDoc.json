@@ -11,16 +11,6 @@
     "https"
   ],
   "paths": {
-    "/api-docs": {
-      "get": {
-        "description": "",
-        "responses": {
-          "default": {
-            "description": ""
-          }
-        }
-      }
-    },
     "/user/{username}": {
       "get": {
         "tags": ["user"],
@@ -39,6 +29,9 @@
         "responses": {
           "200": {
             "description": "OK"
+          },
+          "404": {
+            "description": "User not found"
           },
           "500": {
             "description": "Internal Server Error"

@@ -52,7 +52,11 @@ exports.getUser = (req, res) => {
     const username = req.params.username;
     User.find({ username: username })
       .then((data) => {
-        res.status(200).send(data);
+        if (data.length> 0){
+          res.status(200).send(data);
+        } else{
+          res.status(404).send({ message: 'Username not found.' });
+        }
       })
       .catch((err) => {
         res.status(500).send({
